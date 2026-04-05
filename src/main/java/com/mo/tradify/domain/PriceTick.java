@@ -6,7 +6,7 @@ import lombok.Builder;
 public record PriceTick(
     String symbol,
     double price,
-    String timestamp,
+    long timestamp,
     double volume
 ) {
 }

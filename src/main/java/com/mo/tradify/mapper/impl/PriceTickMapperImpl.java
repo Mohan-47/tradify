@@ -5,6 +5,8 @@ import com.mo.tradify.domain.dto.TradeResponseDto;
 import com.mo.tradify.mapper.PriceTickMapper;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+
 @Component
 public class PriceTickMapperImpl implements PriceTickMapper {
     @Override
@@ -12,18 +14,8 @@ public class PriceTickMapperImpl implements PriceTickMapper {
         return new TradeResponseDto(
             priceTick.symbol(),
             priceTick.price(),
-            priceTick.timestamp(),
+            Instant.ofEpochMilli(priceTick.timestamp()).toString(),
             priceTick.volume()
         );
-    }
-
-    @Override
-    public PriceTick mapToPriceTick(TradeResponseDto tradeResponseDto) {
-        return PriceTick.builder()
-            .symbol(tradeResponseDto.symbol())
-            .price(tradeResponseDto.price())
-            .timestamp(tradeResponseDto.timestamp())
-            .volume(tradeResponseDto.volume())
-            .build();
     }
 }

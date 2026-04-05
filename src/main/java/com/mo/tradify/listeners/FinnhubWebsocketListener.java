@@ -22,7 +22,7 @@ public class FinnhubWebsocketListener {
         PriceTick priceTick = marketTickEvent.getPriceTick();
         TradeResponseDto tradeResponseDto = priceTickerMapper.mapToTradeResponseDto(priceTick);
         if (tradeResponseDto != null) {
-            log.info("Broadcasting trade : {}", tradeResponseDto.symbol());
+            log.info("Broadcasting trade : {} timestamp : {}", tradeResponseDto.symbol(), tradeResponseDto.timestamp());
             simpMessagingTemplate.convertAndSend("/topic/trades/" + tradeResponseDto.symbol(), tradeResponseDto);
         }
     }
