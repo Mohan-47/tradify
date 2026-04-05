@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: tradify
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: tradify-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+finnhub :
+  ws :
+    url : wss://ws.finnhub.io?token=${FINNHUB_API_KEY}
+
+kafka:
+  topics:
+    market-ticks: market-ticks
