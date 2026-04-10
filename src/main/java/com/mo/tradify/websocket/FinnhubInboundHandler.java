@@ -24,18 +24,15 @@ public class FinnhubInboundHandler extends TextWebSocketHandler {
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         this.session = session;
         log.info("Connection established: {}", session.getId());
-       // subscribeToSymbol("AAPL");
-       subscribeToSymbol("BINANCE:BTCUSDT");
-        subscribeToSymbol("BINANCE:ETHBTC");
     }
 
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         log.info("Received: {}", message.getPayload());
-        try{
+        try {
             FinnhubResponseDto response = objectMapper.readValue(message.getPayload(), FinnhubResponseDto.class);
             tradeService.processFinnhubTrades(response);
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error("Error while handling text message: {}", e.getMessage());
         }
     }
@@ -53,13 +50,12 @@ public class FinnhubInboundHandler extends TextWebSocketHandler {
 
     public void subscribeToSymbol(String symbol) throws Exception {
         log.info("Subscribing to symbol: {}", symbol);
-        if(session!=null && session.isOpen()){
-            try{
+        if (session != null && session.isOpen()) {
+            try {
                 String message = String.format("{\"type\":\"subscribe\",\"symbol\":\"%s\"}", symbol);
                 session.sendMessage(new TextMessage(message));
                 log.info("Subscribed to symbol: {}", symbol);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 log.error("Failed to subscribe to symbol: {}", symbol, e);
             }
         }
@@ -67,13 +63,12 @@ public class FinnhubInboundHandler extends TextWebSocketHandler {
 
     public void unsubscribeFromSymbol(String symbol) throws Exception {
         log.info("Unsubscribing to symbol: {}", symbol);
-        if(session!=null && session.isOpen()){
-            try{
+        if (session != null && session.isOpen()) {
+            try {
                 String message = String.format("{\"type\":\"unsubscribe\",\"symbol\":\"%s\"}", symbol);
                 session.sendMessage(new TextMessage(message));
                 log.info("Unsubscribed to symbol: {}", symbol);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 log.error("Failed to unsubscribe to symbol: {}", symbol, e);
             }
         }
@@ -81,11 +76,10 @@ public class FinnhubInboundHandler extends TextWebSocketHandler {
 
     public void closeSession() throws Exception {
         log.info("Closing session: {}", session.getId());
-        if(session!=null && session.isOpen()){
-            try{
+        if (session != null && session.isOpen()) {
+            try {
                 session.close();
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 log.error("Failed to close session", e);
             }
         }

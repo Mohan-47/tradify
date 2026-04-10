@@ -19,3 +19,19 @@ services:
       KAFKA_LOG_DIRS: /var/lib/kafka/data
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
       CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
+
+  timescaledb:
+    image: timescale/timescaledb:latest-pg18
+    container_name: timescaledb
+    ports:
+      - "5432:5432"
+
+    environment:
+      POSTGRES_DB: tradify
+      POSTGRES_USER: tradify
+      POSTGRES_PASSWORD: tradify
+    volumes:
+      - timescale_data:/var/lib/postgresql/data
+
+volumes:
+  timescale_data:

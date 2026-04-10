@@ -13,6 +13,22 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 
+  datasource:
+    url: jdbc:postgresql://localhost:5432/tradify
+    username: tradify
+    password: ${DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        default_schema: market
+        format_sql: true
+    show-sql: false
+
 finnhub :
   ws :
     url : wss://ws.finnhub.io?token=${FINNHUB_API_KEY}
@@ -20,3 +36,8 @@ finnhub :
 kafka:
   topics:
     market-ticks: market-ticks
+
+logging:
+  level:
+    org.springframework.messaging: DEBUG
+    org.springframework.web.socket: DEBUG

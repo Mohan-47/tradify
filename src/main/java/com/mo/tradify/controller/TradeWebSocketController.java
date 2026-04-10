@@ -2,7 +2,6 @@ package com.mo.tradify.controller;
 
 import com.mo.tradify.services.PriceStateService;
 import com.mo.tradify.services.StockSubscriptionService;
-import com.mo.tradify.services.TradeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -22,21 +21,18 @@ public class TradeWebSocketController {
 
         stockSubscriptionService.subscribeToSymbol(symbol.toUpperCase());
         priceStateService.getTradeResponse(symbol.toUpperCase())
-            .ifPresent(tradeResponseDto -> {
-                simpMessagingTemplate.convertAndSendToUser(
-                    headerAccessor.getSessionId(),
+            .ifPresent(tradeResponseDto ->
+                simpMessagingTemplate.convertAndSend(
                     "/topic/trades/" + symbol.toUpperCase(),
                     tradeResponseDto
-                );
-            });
+                ));
 
     }
 
     @MessageMapping("/trades/unsubscribe")
-    public void unsubscribe(@Payload String symbol){
+    public void unsubscribe(@Payload String symbol) {
         stockSubscriptionService.unsubscribeFromSymbol(symbol.toUpperCase());
     }
-
 
 
 }
