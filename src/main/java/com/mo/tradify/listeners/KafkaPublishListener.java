@@ -15,13 +15,14 @@ import tools.jackson.databind.ObjectMapper;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class KafkaConsumerListener {
+public class KafkaPublishListener {
 
     private final ObjectMapper objectMapper;
     private final ApplicationEventPublisher eventPublisher;
 
     @KafkaListener(topics = "${kafka.topics.market-ticks}",
-        groupId = "${spring.kafka.consumer.group-id}")
+        groupId = "tradify-streaming",
+    containerFactory = "streamingListenerContainerFactory")
     public void onMessage(@Payload String message, @Header(KafkaHeaders.RECEIVED_KEY) String key) {
         try {
             PriceTick priceTick = objectMapper.readValue(message, PriceTick.class);
