@@ -22,7 +22,7 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         default_schema: market
         format_sql: true
-    show-sql: false
+    show-sql: true
 
 finnhub :
   ws :
@@ -34,5 +34,5 @@ kafka:
 
 logging:
   level:
-    org.springframework.messaging: DEBUG
+    org.springframework.messaging: WARN
     org.springframework.web.socket: DEBUG

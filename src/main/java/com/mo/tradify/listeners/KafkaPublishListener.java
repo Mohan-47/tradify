@@ -26,13 +26,13 @@ public class KafkaPublishListener {
     public void onMessage(@Payload String message, @Header(KafkaHeaders.RECEIVED_KEY) String key) {
         try {
             PriceTick priceTick = objectMapper.readValue(message, PriceTick.class);
-            log.info("Consumed from Kafka → key: {} symbol: {} price: {} volume: {} timestamp:{}",
-                key,
-                priceTick.symbol(),
-                priceTick.price(),
-                priceTick.volume(),
-                priceTick.timestamp()
-            );
+//            log.info("Consumed from Kafka → key: {} symbol: {} price: {} volume: {} timestamp:{}",
+//                key,
+//                priceTick.symbol(),
+//                priceTick.price(),
+//                priceTick.volume(),
+//                priceTick.timestamp()
+//            );
             eventPublisher.publishEvent(new MarketTickEvent(this,priceTick));
         } catch (Exception e) {
             log.error("Failed to deserialize message: {}", e.getMessage());
